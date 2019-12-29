@@ -8,14 +8,15 @@ struct mo{
     int time;
     char imdblink[200];
 };
-struct sans {
+struct san {
     int t;
     int mov;
+    int b[200][200];
 };
-struct sa{
+struct sal{
     int r;
     int s;
-    struct sans ss[200];
+    struct san ss[200];
 };
 
 void movr(struct mo x[],int n){
@@ -26,7 +27,6 @@ void movr(struct mo x[],int n){
     }
     fclose(p);
 }
-
 /***************
  *
  * Mahdi HGZ
@@ -38,9 +38,10 @@ int main() {
     p=fopen("data.txt","r");
     fscanf(p,"%d\n%d",&nmov,&nsalon);
     fclose(p);
-    struct mo movie[nmov];
+    struct mo movie[nmov]={0};
     movr(movie,nmov);
+    struct sal salon[nsalon]={0};
 
-
+    printf("%d",salon.ss)
     return 0;
 }
