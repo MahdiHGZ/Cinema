@@ -3,7 +3,6 @@
 #include <string.h>
 #include <math.h>
 
-
 struct mo{
     char name[100];
     int time;
@@ -27,6 +26,7 @@ void movr(struct mo x[],int n){
     }
     fclose(p);
 }
+
 /***************
  *
  * Mahdi HGZ
@@ -40,7 +40,7 @@ int main() {
     fclose(p);
     struct mo movie[nmov];
     movr(movie,nmov);
-    printf("%s",movie[2].name);
+
 
     return 0;
 }
