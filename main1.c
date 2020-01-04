@@ -9,14 +9,15 @@ struct mo{
     char imdblink[200];
 };
 struct san {
+    int v;
     int t;
     int mov;
-    int b[200][200];
+    int b[20][20];
 };
 struct sal{
     int r;
     int s;
-    struct san ss[200];
+    struct san ss[10];
 };
 
 void movr(struct mo x[],int n){
@@ -26,6 +27,23 @@ void movr(struct mo x[],int n){
         fscanf(p,"%s %d %s",&x[i].name,&x[i].time,&x[i].imdblink);
     }
     fclose(p);
+}
+void salkesh(struct sal x,int n){
+    printf("    ");
+    for (int i = 0; i <x.s; ++i) {
+        printf("%d ", i+1);
+        if(i<9)printf(" ");
+    }
+    printf("\n");
+    for (int j = 0; j < x.r; ++j) {
+        printf("%d:",j+1);
+        if(j<9)printf(" ");
+        for (int i = 0; i < x.s; ++i) {
+            if(x.ss[n].b[j][i]==0)printf("%c %c",192,217);
+            else printf("%c%c%c",192,223,217);
+        }
+        printf("\n");
+    }
 }
 /***************
  *
@@ -38,10 +56,7 @@ int main() {
     p=fopen("data.txt","r");
     fscanf(p,"%d\n%d",&nmov,&nsalon);
     fclose(p);
-    struct mo movie[nmov]={0};
+    struct mo movie[nmov];
     movr(movie,nmov);
-    struct sal salon[nsalon]={0};
-
-    printf("%d",salon.ss)
     return 0;
 }
