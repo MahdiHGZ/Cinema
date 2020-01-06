@@ -9,6 +9,8 @@
 C:/Users/mahdi/CLionProjects/Cinema/main1.c
 stdio.h
 -
+time.h
+-
 stdlib.h
 -
 string.h
