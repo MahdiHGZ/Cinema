@@ -10,6 +10,8 @@ struct mo{
     char imdblink[200];
 };
 struct san {
+    int ssalon;
+    int ssans;
     time_t t;
     int mov;
     int b[20][20];
@@ -20,6 +22,48 @@ struct sal{
     int nsans;
     struct san ss[10];
 };
+int RQSort(struct san a[],s,e){
+    if(s>=e-1)return 0;
+    srand(time(NULL));
+    int m=rand()%(e-s)+s;
+    int y,z;
+    struct san w;
+    w=a[m];
+    a[m]=a[e-1];
+    a[e-1]=w;
+    z=e-1;
+    y=e+1;
+    for(int i=s;i<e;++i)
+    {
+        if(i==e-1)
+        {
+            if(y<e)
+            {
+                w=a[y];
+                a[y]=a[z];
+                a[z]=w;
+            }
+            else {
+                y=z;
+            }
+            break;
+        }
+        if(a[i].t>a[z].t && y>e)
+        {
+            y=i;
+        }
+        if(a[i].t<a[z].t && y<e)
+        {
+            w=a[i];
+            a[i]=a[y];
+            a[y]=w;
+            y++;
+        }
+    }
+    RQSort(a,s,y);
+    RQSort(a,y+1,e);
+    return 0;
+}
 
 void movr(struct mo x[],int n){
     FILE *p;
@@ -49,6 +93,8 @@ void salonr(struct sal x[],int n){
         fscanf(p,"%d %d %d",&x[i].r,&x[i].s,&x[i].nsans);
         for (int j = 0; j <x[i].nsans; ++j) {
             fscanf(p,"%d %d",&x[i].ss[j].t,&x[i].ss[j].mov);
+            x[i].ss[j].ssans=j;
+            x[i].ss[j].ssalon=i;
             for (int k = 0; k <x[i].r; ++k) {
                 for (int l = 0; l < x[i].s; ++l) {
                     fscanf(p,"%d",&x[i].ss[j].b[k][l]);
@@ -126,11 +172,11 @@ int  addsans(struct sal x[], struct mo y[],int m){
         printf("The period is already token !!");
     }
 }
-/***************
+/********************************************************
  *
  * Mahdi HGZ
  *
- ***************/
+ ********************************************************/
 int main() {
     int x, y, m, n, q,nmov,nsalon;
     FILE *p;
@@ -147,6 +193,7 @@ int main() {
     salonr(salon,1);
     //salkesh(salon[0],1);
     //movkesh(movie,nmov);
-    addsans(salon,movie,4);
+    //addsans(salon,movie,4);
+
     return 0;
 }
