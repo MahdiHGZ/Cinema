@@ -28,10 +28,10 @@ void delayy(int n){
 
     }
 }
-void load(int n){
+void load(int n,int x){
     printf("\n");
     for (int i = 0; i < n; ++i) {
-        printf("%c",177);
+        printf("%c",x);
         delayy(1000);
     }
 }
@@ -169,6 +169,8 @@ void chaptime(time_t t) {
     printf("Time: %02ld/%02ld/%02ld %02ld:%02ld\n", mon + 1, d + 1, y + 2020, h, min);
 }
 int addticket(struct sal x[],int n, struct mo movie[],time_t now) {
+    load(80,176);
+    printf("\n");
     int sum = 0, p;
     for (int i = 0; i < n; ++i) {
         sum += x[i].nsans;
@@ -187,18 +189,21 @@ int addticket(struct sal x[],int n, struct mo movie[],time_t now) {
         if (a[k].t >= now) {
             printf("%d. Salon:%d\n   Film:%s\n   ", k + 1 - gh, a[k].ssalon + 1, movie[a[k].mov].name);
             chaptime(a[k].t);
-            printf("\n");
         } else gh++;
     }
     printf("Shomare sans ra wared konid:");
     scanf("%d", &p);
     p += gh;
+    load(80,176);
+    printf("\n");
     salkesh(x[a[p - 1].ssalon], a[p - 1].ssans);
     int r, s;
     printf("Shomare Radif ra wared konid:");
     scanf("%d", &r);
     printf("Shomare Sandali ra wared konid:");
     scanf("%d", &s);
+    load(80,176);
+    printf("\n");
     if (x[a[p - 1].ssalon].ss[a[p - 1].ssans].b[r - 1][s - 1] == 0) {
         x[a[p - 1].ssalon].ss[a[p - 1].ssans].b[r - 1][s - 1] = 1;
         printf("Ticket Kharidari shod\n");
@@ -209,14 +214,20 @@ int addticket(struct sal x[],int n, struct mo movie[],time_t now) {
 int  addsans(struct sal x[],int nsalon ,struct mo y[],int nmovie) {
     int n, a, b, c;
     time_t t;
+    load(80,176);
+    printf("\n");
     for (int i = 0; i < nsalon; ++i) {
         printf("Salon%d: %dx%d\n", i + 1, x[i].r, x[i].s);
     }
     printf("Inter salon's number:");
     scanf("%d", &n);
+    load(80,176);
+    printf("\n");
     movkesh(y, nmovie);
     printf("Inter film's number:");
     scanf("%d", &a);
+    load(80,176);
+    printf("\n");
     printf("Inter time of sans(Year(>2020) Month Day Hour(24) Minute):");
     long int ye, mo, d, h, mi;
     scanf("%ld %ld %ld %ld %ld", &ye, &mo, &d, &h, &mi);
@@ -229,14 +240,16 @@ int  addsans(struct sal x[],int nsalon ,struct mo y[],int nmovie) {
     mi += 60 * h;
     t = mi * 60;
     t += 10;
+    load(80,176);
+    printf("\n");
     if (oksans(x[n - 1], t, y[a - 1].time, y)) {
         x[n - 1].ss[x[n - 1].nsans].t = t;
         x[n - 1].ss[x[n - 1].nsans].mov = a - 1;
         x[n - 1].nsans++;
         RQSort(x[n - 1].ss, 0, x[n - 1].nsans);
-        printf("sans successfully added \n");
+        printf("sans successfully added !!\n");
     } else {
-        printf("The period is already token !!");
+        printf("The period is already token !!!!!");
     }
 }
 /********************************************************
@@ -258,7 +271,7 @@ int main() {
         time_t now;
         time(&now);
         now -= 1577824219;
-        load(70);
+        load(80,177);
         printf(" ");
         chaptime(now);
         printf("1.Add Sans\n2.Take Ticket\n3.Add Movie\n4.Add Salon\n5.Exit\n");
@@ -272,6 +285,8 @@ int main() {
             addticket(salon, nsalon, movie, now);
         }
         if (x == 3) {
+            load(80,176);
+            printf("\n");
             for (int i = 0; i < nmov; ++i) {
                 printf("%d:%s\n  %d min\n  imdblink:https://www.imdb.com/title/%s\n", i + 1, movie[i].name,
                        movie[i].time, movie[i].imdblink);
@@ -283,9 +298,13 @@ int main() {
             printf("Code IMDB ra wared kkonid(mesal:tt1502397):");
             scanf("%s", movie[nmov].imdblink);
             nmov++;
+            load(80,176);
+            printf("\n");
             printf("Movie successfully added\n");
         }
         if(x==4){
+            load(80,176);
+            printf("\n");
             for (int i = 0; i < nsalon; ++i) {
                 printf("Salon%d: %dx%d\n", i + 1, salon[i].r, salon[i].s);
             }
@@ -293,10 +312,16 @@ int main() {
             scanf("%d",&salon[nsalon].r);
             printf("tedade sandli hay har radif ra wared konid:");
             scanf("%d",&salon[nsalon].s);
+            load(80,176);
+            printf("\n");
             printf("Salon%d successfully added",nsalon+1);
             nsalon++;
         }
-        if (x == 5)x = 0;
+        if (x == 5) {
+            x = 0;
+            load(80,176);
+            printf("\n");
+        }
         printf("\n\n\n\n");
     }
     salonw(salon, nsalon);
