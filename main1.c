@@ -226,8 +226,6 @@ int  addsans(struct sal x[],int nsalon ,struct mo y[],int nmovie) {
     movkesh(y, nmovie);
     printf("Inter film's number:");
     scanf("%d", &a);
-    load(80,176);
-    printf("\n");
     printf("Inter time of sans(Year(>2020) Month Day Hour(24) Minute):");
     long int ye, mo, d, h, mi;
     scanf("%ld%ld%ld%ld%ld", &ye, &mo, &d, &h, &mi);
@@ -274,7 +272,7 @@ int main() {
         load(80,177);
         printf(" ");
         chaptime(now);
-        printf("1.Add Sans\n2.Take Ticket\n3.Add Movie\n4.Add Salon\n5.Exit\n");
+        printf("1.Add Sans\n2.Take Ticket\n3.Add Movie\n4.Add Salon\n5.Save&Exit\n");
         delayy(10000);
         printf("Shomare morede nazar ra wared konid:");
         scanf("%d", &x);
