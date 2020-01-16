@@ -24,7 +24,19 @@ struct sal{
 };
 
 
+void delayy(int n){
+    for (int i = 0; i < n*10000; ++i) {
 
+    }
+}
+void load(int n){
+    printf("\n");
+    for (int i = 0; i < n; ++i) {
+        printf("*");
+        delayy(1000);
+    }
+    printf("\n");
+}
 int RQSort(struct san a[],int s,int e) {
     if (s >= e - 1)return 0;
     srand(time(NULL));
@@ -246,20 +258,47 @@ int main() {
     fclose(p);
     struct mo movie[nmov + 10];
     movr(movie, nmov);
-    struct sal salon[nsalon];
+    struct sal salon[nsalon + 5];
     salonr(salon, nsalon);
     //salkesh(salon[0],1);
     //movkesh(movie,nmov);
     //addsans(salon,nsalon,movie,nmov);
     //addticket(salon,nsalon,movie,now);
     while (x) {
-        printf("************************************************************************************\n");
+        load(70);
         printf("1.Add Sans\n2.Take Ticket\n3.Add Movie\n4.Add Salon\n5.Exit\n");
+        delayy(10000);
         printf("Shomare morede nazar ra wared konid:");
         scanf("%d", &x);
         if (x == 1)addsans(salon, nsalon, movie, nmov);
         if (x == 2)addticket(salon, nsalon, movie, now);
+        if (x == 3) {
+            for (int i = 0; i < nmov; ++i) {
+                printf("%d:%s\n  %d min\n  imdblink:https://www.imdb.com/title/%s\n", i + 1, movie[i].name,
+                       movie[i].time, movie[i].imdblink);
+            }
+            printf("Name Film ra wared konid:");
+            scanf("%s", movie[nmov].name);
+            printf("Modet zaman Film ra wared konid(Min):");
+            scanf("%d", &movie[nmov].time);
+            printf("Code IMDB ra wared kkonid(mesal:tt1502397):");
+            scanf("%s", movie[nmov].imdblink);
+            nmov++;
+            printf("Movie successfully added\n");
+        }
+        if(x==4){
+            for (int i = 0; i < nsalon; ++i) {
+                printf("Salon%d: %dx%d\n", i + 1, salon[i].r, salon[i].s);
+            }
+            printf("tedade radif hay Salon ra wared konid:");
+            scanf("%d",&salon[nsalon].r);
+            printf("tedade sandli hay har radif ra wared konid:");
+            scanf("%d",&salon[nsalon].s);
+            printf("Salon%d successfully added",nsalon+1);
+            nsalon++;
+        }
         if (x == 5)x = 0;
+        printf("\n\n\n\n");
     }
     salonw(salon, nsalon);
     movw(movie, nmov);
