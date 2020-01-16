@@ -23,7 +23,6 @@ struct sal{
     struct san ss[11];
 };
 
-
 void delayy(int n){
     for (int i = 0; i < n*10000; ++i) {
 
@@ -32,10 +31,9 @@ void delayy(int n){
 void load(int n){
     printf("\n");
     for (int i = 0; i < n; ++i) {
-        printf("*");
+        printf("%c",177);
         delayy(1000);
     }
-    printf("\n");
 }
 int RQSort(struct san a[],int s,int e) {
     if (s >= e - 1)return 0;
@@ -168,7 +166,7 @@ void chaptime(time_t t) {
     h = t / 3600;
     t %= 3600;
     min = t / 60;
-    printf("   Time: %02ld/%02ld/%02ld %02ld:%02ld\n\n", mon + 1, d + 1, y + 2020, h, min);
+    printf("Time: %02ld/%02ld/%02ld %02ld:%02ld\n", mon + 1, d + 1, y + 2020, h, min);
 }
 int addticket(struct sal x[],int n, struct mo movie[],time_t now) {
     int sum = 0, p;
@@ -187,8 +185,9 @@ int addticket(struct sal x[],int n, struct mo movie[],time_t now) {
     int gh = 0;
     for (int k = 0; k < sum; ++k) {
         if (a[k].t >= now) {
-            printf("%d. Salon:%d\n   Film:%s\n", k + 1 - gh, a[k].ssalon + 1, movie[a[k].mov].name);
+            printf("%d. Salon:%d\n   Film:%s\n   ", k + 1 - gh, a[k].ssalon + 1, movie[a[k].mov].name);
             chaptime(a[k].t);
+            printf("\n");
         } else gh++;
     }
     printf("Shomare sans ra wared konid:");
@@ -247,11 +246,6 @@ int  addsans(struct sal x[],int nsalon ,struct mo y[],int nmovie) {
  ********************************************************/
 int main() {
     int x = 1, y, m, n, q, nmov, nsalon;
-    time_t now;
-    time(&now);
-    now -= 1577824219;
-    //printf("Time=%ld\n",now);
-    chaptime(now);
     FILE *p;
     p = fopen("data.txt", "r");
     fscanf(p, "%d\n%d", &nmov, &nsalon);
@@ -260,18 +254,22 @@ int main() {
     movr(movie, nmov);
     struct sal salon[nsalon + 5];
     salonr(salon, nsalon);
-    //salkesh(salon[0],1);
-    //movkesh(movie,nmov);
-    //addsans(salon,nsalon,movie,nmov);
-    //addticket(salon,nsalon,movie,now);
     while (x) {
+        time_t now;
+        time(&now);
+        now -= 1577824219;
         load(70);
+        chaptime(now);
         printf("1.Add Sans\n2.Take Ticket\n3.Add Movie\n4.Add Salon\n5.Exit\n");
         delayy(10000);
         printf("Shomare morede nazar ra wared konid:");
         scanf("%d", &x);
         if (x == 1)addsans(salon, nsalon, movie, nmov);
-        if (x == 2)addticket(salon, nsalon, movie, now);
+        if (x == 2){
+            time(&now);
+            now -= 1577824219;
+            addticket(salon, nsalon, movie, now);
+        }
         if (x == 3) {
             for (int i = 0; i < nmov; ++i) {
                 printf("%d:%s\n  %d min\n  imdblink:https://www.imdb.com/title/%s\n", i + 1, movie[i].name,
