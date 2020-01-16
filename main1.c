@@ -22,7 +22,10 @@ struct sal{
     int nsans;
     struct san ss[10];
 };
-int RQSort(struct san a[],s,e){
+
+
+
+int RQSort(struct san a[],int s,int e){
     if(s>=e-1)return 0;
     srand(time(NULL));
     int m=rand()%(e-s)+s;
@@ -64,7 +67,6 @@ int RQSort(struct san a[],s,e){
     RQSort(a,y+1,e);
     return 0;
 }
-
 void movr(struct mo x[],int n){
     FILE *p;
     p=fopen("film.txt","r");
@@ -108,13 +110,14 @@ void salonw(struct sal x[],int n){
     FILE *p;
     p=fopen("salon.txt","w");
     for (int i = 0; i < n; ++i) {
-        fprintf(p,"%d %d %d",x[i].r,x[i].s,x[i].nsans);
+        fprintf(p,"%d %d %d\n",x[i].r,x[i].s,x[i].nsans);
         for (int j = 0; j <x[i].nsans; ++j) {
-            fprintf(p,"%d %d",x[i].ss[j].t,x[i].ss[j].mov);
+            fprintf(p,"%d %d\n",x[i].ss[j].t,x[i].ss[j].mov);
             for (int k = 0; k <x[i].r; ++k) {
                 for (int l = 0; l < x[i].s; ++l) {
-                    fprintf(p,"%d",x[i].ss[j].b[k][l]);
+                    fprintf(p,"%d ",x[i].ss[j].b[k][l]);
                 }
+                fprintf(p,"\n");
             }
         }
     }
@@ -137,21 +140,84 @@ void salkesh(struct sal x,int n){
         printf("\n");
     }
 }
-int  oksans(struct sal x,time_t t,int tm){
-
+int  oksans(struct sal x,time_t t,int tm, struct mo y[]){
+    int i;
+    for (i = 0; x.ss[i].t<t; ++i) {
+    }
+    if(t+tm<=x.ss[i].t)
+    {
+        if(x.ss[i-1].t+y[x.ss[i-1].mov].time*60<=t)
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
-void sanssort(struct sal x){
-
-};
-int  addsans(struct sal x[], struct mo y[],int m){
+void chaptime(time_t t)
+{
+    long int y,mon,d,h,min;
+    y=t/31104000;
+    t%=31104000;
+    mon=t/2592000;
+    t%=2592000;
+    d=t/86400;
+    t%=86400;
+    h=t/3600;
+    t%=3600;
+    min=t/60;
+    printf("   Time: %02ld/%02ld/%02ld %02ld:%02ld\n\n",mon+1,d+1,y+2020,h,min);
+}
+int addticket(struct sal x[],int n, struct mo movie[],time_t now)
+{
+    int sum=0,p;
+    for (int i = 0; i < n; ++i) {
+        sum+=x[i].nsans;
+    }
+    int kk=0;
+    struct san a[sum];
+    for (int j = 0; j < n; ++j) {
+        for (int i = 0; i < x[j].nsans; ++i) {
+            a[kk]=x[j].ss[i];
+            kk++;
+        }
+    }
+    RQSort(a,0,sum);
+    int gh=0;
+    for (int k = 0; k < sum; ++k) {
+        if (a[k].t>=now) {
+            printf("%d. Salon:%d Film:%s\n", k + 1-gh, a[k].ssalon + 1, movie[a[k].mov].name);
+            chaptime(a[k].t);
+        } else gh++;
+    }
+    printf("Shomare sans ra wared konid:");
+    scanf("%d",&p);
+    p+=gh;
+    salkesh(x[a[p-1].ssalon],a[p-1].ssans);
+    int r,s;
+    printf("Shomare Radif ra wared konid:");
+    scanf("%d",&r);
+    printf("Shomare Sandali ra wared konid:");
+    scanf("%d",&s);
+    if(x[a[p-1].ssalon].ss[a[p-1].ssans].b[r-1][s-1]==0)
+    {
+        x[a[p-1].ssalon].ss[a[p-1].ssans].b[r-1][s-1]=1;
+        printf("Ticket Kharidari shod\n");
+    } else{
+        printf("ticket already token\n");
+    }
+}
+int  addsans(struct sal x[],int nsalon ,struct mo y[],int nmovie){
     int n,a,b,c;
     time_t t;
-    printf("Inter salon's number:\n");
+    for (int i = 0; i <nsalon ; ++i) {
+        printf("Salon%d: %dx%d\n",i+1,x[i].r,x[i].s);
+    }
+    printf("Inter salon's number:");
     scanf("%d",&n);
-    movkesh(y,m);
-    printf("Inter film's number:\n");
+    movkesh(y,nmovie);
+    printf("Inter film's number:");
     scanf("%d",&a);
-    printf("Inter time of sans(Year(>2020) Month Day Hour(24) Minute):\n");
+    printf("Inter time of sans(Year(>2020) Month Day Hour(24) Minute):");
     long long int ye,mo,d,h,mi;
     scanf("%d %d %d %d %d",&ye,&mo,&d,&h,&mi);
     ye-=2020;
@@ -163,11 +229,12 @@ int  addsans(struct sal x[], struct mo y[],int m){
     mi+=60*h;
     t=mi*60;
     t+=10;
-    if(oksans(x[n-1],t,y[a-1].time)){
+    if(oksans(x[n-1],t,y[a-1].time,y)){
         x[n-1].ss[x[n-1].nsans].t=t;
         x[n-1].ss[x[n-1].nsans].mov=a-1;
         x[n-1].nsans++;
-        sanssort(x[n-1]);
+        RQSort(x[n-1].ss,0,x[n-1].nsans);
+        printf("sans successfully added \n");
     } else{
         printf("The period is already token !!");
     }
@@ -179,21 +246,23 @@ int  addsans(struct sal x[], struct mo y[],int m){
  ********************************************************/
 int main() {
     int x, y, m, n, q,nmov,nsalon;
-    FILE *p;
     time_t now;
     time(&now);
     now-=1577824219;
-    printf("Time=%ld\n",now);
+    //printf("Time=%ld\n",now);
+    chaptime(now);
+    FILE *p;
     p=fopen("data.txt","r");
     fscanf(p,"%d\n%d",&nmov,&nsalon);
     fclose(p);
     struct mo movie[nmov+10];
     movr(movie,nmov);
     struct sal salon[nsalon];
-    salonr(salon,1);
+    salonr(salon,2);
     //salkesh(salon[0],1);
     //movkesh(movie,nmov);
-    //addsans(salon,movie,4);
-
+    //addsans(salon,nsalon,movie,nmov);
+    //addticket(salon,nsalon,movie,now);
+    salonw(salon,2);
     return 0;
 }
