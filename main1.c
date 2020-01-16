@@ -219,7 +219,7 @@ int  addsans(struct sal x[],int nsalon ,struct mo y[],int nmovie) {
     scanf("%d", &a);
     printf("Inter time of sans(Year(>2020) Month Day Hour(24) Minute):");
     long long int ye, mo, d, h, mi;
-    scanf("%d %d %d %d %d", &ye, &mo, &d, &h, &mi);
+    scanf("%ld %ld %ld %ld %ld", &ye, &mo, &d, &h, &mi);
     ye -= 2020;
     mo--;
     mo += ye * 12;
@@ -259,6 +259,7 @@ int main() {
         time(&now);
         now -= 1577824219;
         load(70);
+        printf(" ");
         chaptime(now);
         printf("1.Add Sans\n2.Take Ticket\n3.Add Movie\n4.Add Salon\n5.Exit\n");
         delayy(10000);
