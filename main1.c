@@ -20,7 +20,7 @@ struct sal{
     int r;
     int s;
     int nsans;
-    struct san ss[10];
+    struct san ss[11];
 };
 
 
@@ -185,7 +185,7 @@ int addticket(struct sal x[],int n, struct mo movie[],time_t now)
     int gh=0;
     for (int k = 0; k < sum; ++k) {
         if (a[k].t>=now) {
-            printf("%d. Salon:%d Film:%s\n", k + 1-gh, a[k].ssalon + 1, movie[a[k].mov].name);
+            printf("%d. Salon:%d\n   Film:%s\n", k + 1-gh, a[k].ssalon + 1, movie[a[k].mov].name);
             chaptime(a[k].t);
         } else gh++;
     }
@@ -245,7 +245,7 @@ int  addsans(struct sal x[],int nsalon ,struct mo y[],int nmovie){
  *
  ********************************************************/
 int main() {
-    int x, y, m, n, q,nmov,nsalon;
+    int x=1, y, m, n, q,nmov,nsalon;
     time_t now;
     time(&now);
     now-=1577824219;
@@ -258,11 +258,25 @@ int main() {
     struct mo movie[nmov+10];
     movr(movie,nmov);
     struct sal salon[nsalon];
-    salonr(salon,2);
+    salonr(salon,nsalon);
     //salkesh(salon[0],1);
     //movkesh(movie,nmov);
     //addsans(salon,nsalon,movie,nmov);
     //addticket(salon,nsalon,movie,now);
-    salonw(salon,2);
+    while (x)
+    {
+        printf("************************************************************************************\n");
+        printf("1.Add Sans\n2.Take Ticket\n3.Add Movie\n4.Add Salon\n5.Exit\n");
+        printf("Shomare morede nazar ra wared konid:");
+        scanf("%d",&x);
+        if(x==1)addsans(salon,nsalon,movie,nmov);
+        if(x==2)addticket(salon,nsalon,movie,now);
+        if(x==5)x=0;
+    }
+    salonw(salon,nsalon);
+    movw(movie,nmov);
+    p=fopen("data.txt","w");
+    fprintf(p,"%d\n%d",nmov,nsalon);
+    fclose(p);
     return 0;
 }
