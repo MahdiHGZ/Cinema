@@ -230,7 +230,7 @@ int  addsans(struct sal x[],int nsalon ,struct mo y[],int nmovie) {
     printf("\n");
     printf("Inter time of sans(Year(>2020) Month Day Hour(24) Minute):");
     long int ye, mo, d, h, mi;
-    scanf("%ld %ld %ld %ld %ld", &ye, &mo, &d, &h, &mi);
+    scanf("%ld%ld%ld%ld%ld", &ye, &mo, &d, &h, &mi);
     ye -= 2020;
     mo--;
     mo += ye * 12;
